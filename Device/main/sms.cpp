@@ -1,9 +1,9 @@
 #include "sms.h"
 
 int soilVal, soilPct;
-unsigned long curSec;
+unsigned long curSec = 0;
 
-int airVal, watVal;
+int airVal = 564, watVal = 293;
 
 
 void updateSoilSensing(const int analogPin){
@@ -33,8 +33,8 @@ void serialSoilInit(){
 }
 
 void printSoilMoist(){
-    unsigned long curSeconds = millis()/1000;
-    Serial.print(curSeconds);
+    curSec = millis()/1000;
+    Serial.print(curSec);
 
     Serial.print(" , ");
     Serial.print(soilVal);
