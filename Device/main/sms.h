@@ -1,6 +1,8 @@
 #ifndef SMS_H
 #define SMS_H
 
+#include "Arduino.h"
+
 void updateSoilSensing(const int analogPin);
 
 void setAirVal(const int analogPin);
