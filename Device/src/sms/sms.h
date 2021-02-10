@@ -9,4 +9,7 @@ void setWatVal(const int analogPin);
 void getSoilPct(int& soilO);
 void getSoilVal(int& soilO);
 
+void serialSoilInit();
+void printSoilMoist();
+
 #endif

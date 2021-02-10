@@ -26,3 +26,19 @@ void getSoilPct(int& soilO){
 void getSoilVal(int& soilO){
     soilO = soilVal;
 }
+
+void serialSoilInit(){
+    Serial.begin(9600); // open serial port, set the baud rate to 9600 bps
+    Serial.println(" Time (s) , Analog Reading , Percent Value ");
+}
+
+void printSoilMoist(){
+    unsigned long curSeconds = millis()/1000;
+    Serial.print(curSeconds);
+
+    Serial.print(" , ");
+    Serial.print(soilVal);
+
+    Serial.print(" , ");
+    Serial.println(soilPct);
+}
