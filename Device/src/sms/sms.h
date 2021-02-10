@@ -1,12 +1,10 @@
 #ifndef SMS_H
 #define SMS_H
 
-#define _SMS A0
+void updateSoilSensing(const int analogPin);
 
-void updateSoilSensing();
-
-void setAirVal();
-void setWatVal();
+void setAirVal(const int analogPin);
+void setWatVal(const int analogPin);
 
 void getSoilPct(int& soilO);
 void getSoilVal(int& soilO);
