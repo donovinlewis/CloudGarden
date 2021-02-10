@@ -1,1 +1,4 @@
 This repository contains the ongoing work to develop code for a wireless soil moisture sensor.
+
+For the Device section, make sure to select Arduino Uno or Pro Mini as the Board with the 
+Arduino add-on installed to ensure correct compilation.
