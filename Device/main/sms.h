@@ -3,15 +3,25 @@
 
 #include "Arduino.h"
 
-void updateSoilSensing(const int analogPin);
+class soilMoist{
+private:
+    int soilVal, soilPct, airVal, watVal;
+    unsigned long curSec;
 
-void setAirVal(const int analogPin);
-void setWatVal(const int analogPin);
 
-void getSoilPct(int& soilO);
-void getSoilVal(int& soilO);
+public:
+    soilMoist();
+    void updateSoilSensing(const int analogPin);
 
-void serialSoilInit();
-void printSoilMoist();
+    void setAirVal(const int analogPin);
+    void setWatVal(const int analogPin);
+
+    int getSoilPct();
+    int getSoilVal();
+
+    void serialSoilInit();
+    void printSoilMoist();
+
+};
 
 #endif
