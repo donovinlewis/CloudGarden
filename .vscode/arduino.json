@@ -1,4 +1,5 @@
 {
     "board": "arduino:avr:uno",
-    "programmer": "AVRISP mkII"
+    "programmer": "AVRISP mkII",
+    "sketch": "Device\\main\\main.ino"
 }

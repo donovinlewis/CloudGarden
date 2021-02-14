@@ -1,13 +1,15 @@
 #include "comSMS.h"
 
+soilMoist s;
+
 void setup(){
-serialSoilInit();
+s.serialSoilInit();
 }
 
 void loop(){
     
-updateSoilSensing(analogPin);
-printSoilMoist();
+s.updateSoilSensing(SOILM);
+s.printSoilMoist();
 delay(1000);
 
 }

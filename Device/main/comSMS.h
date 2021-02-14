@@ -5,7 +5,7 @@
 #include "Arduino.h"
 
 //Microcontroller Pin Definitions
-const int analogPin = A0;
+const int SOILM = A0;
 
 //Custom Libraries
 #include "sms.h"
