@@ -13,12 +13,20 @@ int Transceiver::Send(const TransmittedData &data)
     encoded_data[6] = data.currentMode;
     
     // use RFM69.h send with requestAck = true just in case we ever want an ack.
-    send(GATEWAY_ID, reinterpret_cast<void *>(encoded_data), sizeof(TransmittedData), true)
+    send(GATEWAY_ID, reinterpret_cast<void *>(encoded_data), sizeof(TransmittedData), true);
     int error = ACKReceived(GATEWAY_ID); // check to see if we got an ack
     return (error - 1);
 }
 
 int Transceiver::Receive(ReceivedData &data)
 {
-    return -1;
+    // if (DATALEN == 1)
+    // {
+    //     data.mode = DATA;
+    //     return 0;
+    // }
+    // else
+    // {
+    //     return -1;
+    // }
 }
