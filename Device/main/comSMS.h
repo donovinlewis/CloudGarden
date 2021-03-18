@@ -10,7 +10,7 @@ const int SOILM = A0;
 //Custom Libraries
 #include "sms.h"
 //#include "batmon.h"
-//#include "telem.h"
+#include "transceiver.h"
 
 
 
