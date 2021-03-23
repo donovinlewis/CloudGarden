@@ -3,6 +3,7 @@
 // pass in a defined TransmittedData
 int Transceiver::Send(const TransmittedData &data)
 {
+    Awake();
     uint8_t encoded_data[sizeof(TransmittedData)];
     encoded_data[0] = MSByte(data.soilLevel);
     encoded_data[1] = LSByte(data.soilLevel);
@@ -20,6 +21,7 @@ int Transceiver::Send(const TransmittedData &data)
 
 int Transceiver::Receive(ReceivedData &data)
 {
+    Awake();
     // if (DATALEN == 1)
     // {
     //     data.mode = DATA;
@@ -29,4 +31,19 @@ int Transceiver::Receive(ReceivedData &data)
     // {
     //     return -1;
     // }
+}
+
+void Transceiver::Sleep()
+{
+    isSleeping = true;
+    sleep();
+}
+
+void Transceiver::Awake()
+{
+    if (isSleeping)
+    {
+        isSleeping = false;
+        Initialize();
+    }
 }

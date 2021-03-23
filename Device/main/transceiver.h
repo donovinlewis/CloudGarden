@@ -9,7 +9,7 @@
 
 // helper functions
 static constexpr uint8_t MSByte(uint16_t i) {
-  return static_cast<uint8_t>(i & 0xFF00);
+  return static_cast<uint8_t>((i & 0xFF00) >> 8);
 }
 
 static constexpr uint8_t LSByte(uint16_t i) {
@@ -20,8 +20,7 @@ class Transceiver : private RFM69 {
 public:
   // constructor
   Transceiver() : RFM69{RF69_SPI_CS, RF69_IRQ_PIN, true, nullptr} {
-    this->initialize(RF69_915MHZ, static_cast<uint8_t>(random(2, 253)),
-                     NETWORK_ID);
+    Initialize();
   }
 
   // public structures
@@ -43,11 +42,20 @@ public:
   // public methods
   int Send(const TransmittedData &data);
   int Receive(ReceivedData &data);
+  void Sleep();
+  void Awake();
 
   // public defines
   static constexpr uint8_t GATEWAY_ID{1};
   static constexpr uint8_t NODE_ID{2};
   static constexpr uint8_t NETWORK_ID{100};
+
+private:
+  // private methods
+  void Initialize() { this->initialize(RF69_915MHZ, NODE_ID, NETWORK_ID); }
+
+  // private member variables
+  bool isSleeping{false};
 };
 
 #endif // TRANSCEIVER_HPP defined
