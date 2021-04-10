@@ -44,36 +44,32 @@ public:
   int Sleep();
   int Awake();
   int Initialize() {
-    radio.reset();
+    reset();
     delay(10);
 
     // initialize RF69 with default settings
-    int status = printFailure(radio.begin(900.0, 100.0, 50.0, 125.0, 20, 16));
+    int status = printFailure(begin(900.0, 100.0, 50.0, 125.0, 20, 16));
 
     // NOTE: some RF69 modules use high power output,
     //       those are usually marked RF69H(C/CW).
     //       To configure RadioLib for these modules,
     //       you must call setOutputPower() with
     //       second argument set to true.
-    status |= printFailure(radio.setOutputPower(20, true));
-    if (!mNodeId)
-    {
-      status |= printFailure(radio.disableAddressFiltering());
+    status |= printFailure(setOutputPower(20, true));
+    if (!mNodeId) {
+      status |= printFailure(disableAddressFiltering());
+    } else {
+      status |= printFailure(setNodeAddress(mNodeId));
     }
-    else
-    {
-      status |= printFailure(radio.setNodeAddress(mNodId));
-    }
-    
+
     uint8_t syncWord[4] = {0x01, 0x23, 0x45, 0x67};
-    status |= printFailure(radio.setSyncWord(syncWord, 4));
-    status |= printFailure(radio.enableSyncWordFiltering());
-    status |= printFailure(radio.disableAES());
-    status |= printFailure(radio.setCrcFiltering(false));
-    status |= printFailure(radio.setDataShaping(RADIOLIB_SHAPING_0_5));
-    status |= printFailure(radio.setEncoding(RADIOLIB_ENCODING_MANCHESTER));
-    status |=
-        printFailure(radio.variablePacketLengthMode(RF69_MAX_PACKET_LENGTH));
+    status |= printFailure(setSyncWord(syncWord, 4));
+    status |= printFailure(enableSyncWordFiltering());
+    status |= printFailure(disableAES());
+    status |= printFailure(setCrcFiltering(false));
+    status |= printFailure(setDataShaping(RADIOLIB_SHAPING_0_5));
+    status |= printFailure(setEncoding(RADIOLIB_ENCODING_MANCHESTER));
+    status |= printFailure(variablePacketLengthMode(RF69_MAX_PACKET_LENGTH));
     return status;
   }
 

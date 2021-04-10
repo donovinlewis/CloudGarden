@@ -20,8 +20,11 @@ int Transceiver::Send(const TransmittedData &data, uint8_t transmitToAddr)
 int Transceiver::Receive(ReceivedData &data)
 {
     Awake();
+    uint8_t bytes[] = {data.mode};
     // wait some very small amount of time
-    return receive(&data, sizeof(data), 0);
+    int result = receive(bytes, sizeof(bytes), 0);
+    data.mode = static_cast<Mode>(bytes[0]);
+    return result;
 }
 
 int Transceiver::Sleep()
@@ -37,4 +40,9 @@ int Transceiver::Awake()
         isSleeping = false;
         return standby();
     }
+    else
+    {
+        return 0;
+    }
+    
 }
