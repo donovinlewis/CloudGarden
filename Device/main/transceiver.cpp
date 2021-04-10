@@ -1,7 +1,7 @@
 #include "transceiver.h"
 
 // pass in a defined TransmittedData
-int Transceiver::Send(const TransmittedData &data)
+int Transceiver::Send(const TransmittedData &data, uint8_t transmitToAddr)
 {
     Awake();
     uint8_t encoded_data[sizeof(TransmittedData)];
@@ -14,36 +14,27 @@ int Transceiver::Send(const TransmittedData &data)
     encoded_data[6] = data.currentMode;
     
     // use RFM69.h send with requestAck = true just in case we ever want an ack.
-    send(GATEWAY_ID, reinterpret_cast<void *>(encoded_data), sizeof(TransmittedData), true);
-    int error = ACKReceived(GATEWAY_ID); // check to see if we got an ack
-    return (error - 1);
+    return transmit(encoded_data, sizeof(encoded_data), UINT32_MAX, transmitToAddr);
 }
 
 int Transceiver::Receive(ReceivedData &data)
 {
     Awake();
-    // if (DATALEN == 1)
-    // {
-    //     data.mode = DATA;
-    //     return 0;
-    // }
-    // else
-    // {
-    //     return -1;
-    // }
+    // wait some very small amount of time
+    return receive(&data, sizeof(data), 0);
 }
 
-void Transceiver::Sleep()
+int Transceiver::Sleep()
 {
     isSleeping = true;
-    sleep();
+    return sleep();
 }
 
-void Transceiver::Awake()
+int Transceiver::Awake()
 {
     if (isSleeping)
     {
         isSleeping = false;
-        Initialize();
+        return standby();
     }
 }

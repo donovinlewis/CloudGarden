@@ -4,23 +4,26 @@ static constexpr int SUCCESS{0};
 
 static soilMoist s;
 static Transceiver radio;
-static uint8_t currentMode;
+static Transceiver::Mode currentMode;
 
 using Mode = Transceiver::Mode;
 
-void setup() { s.serialSoilInit(); }
+void setup() {
+  //Serial.begin(115200);
+  s.serialSoilInit(); 
+  radio.Initialize();
+}
 
 void loop() {
-
   // read soil moisture
   uint16_t soilPct = ReadSoilMoisture();
   // uint16_t temperature = getTemperature(); // TODO: add temperature function
   // uint16_t batteryLevel = getBatteryLevel(); // TODO: add battery monitoring
   int success = Transmit(currentMode, soilPct, 69, 100);
   success |= Receive(currentMode);
-  if (success != SUCCESS) {
-    currentMode = Transceiver::Mode::Default;
-  }
+//   if (success != SUCCESS) {
+//     currentMode = Transceiver::Mode::Default;
+//   }
   Sleep(currentMode);
 }
 
@@ -59,6 +62,7 @@ void Sleep(Mode currentMode) {
 	sleepTimeSeconds = 0;
 	break;
 	}
+	// put the radio to sleep
 	radio.Sleep();
 	// Note: this function wakes up every 8 seconds
 	// using the arduino watch dog timer.
