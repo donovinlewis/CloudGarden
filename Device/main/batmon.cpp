@@ -1,5 +1,6 @@
 #include "batmon.h"
 
+<<<<<<< HEAD
 // Initializes variables and the Wire library
 batMon::batMon() { 
     Wire.begin(); 
@@ -114,3 +115,13 @@ uint8_t batMon::reset()
 	Wire.write(0x00);
 	return Wire.endTransmission();
 }
+=======
+uint32_t batmon::getVolts() {
+  for (int i = 0; i <= 2; i++)
+  {
+      battVolts += getBG();
+  }
+  battVolts = battVolts / 3;
+  return battVolts;
+}
+>>>>>>> 1fe92ec (cleaned up code and pulled in thermistor and battery monitoring changes)
