@@ -5,7 +5,7 @@
 
 #include "LowPower.h"
 
-#define LENGTH 9
+//#define LENGTH 9
 
 #define SOILI PD5
 #define SOILO PC0
@@ -27,8 +27,10 @@ const int C = 2.019202697e-07;
 
 int tempVal = 0;
 
+int battVolts = 0;
+
 void setup() {
-  Serial.begin(9600);
+  //Serial.begin(9600);
 
   pinMode(SOILI, OUTPUT);
   pinMode(SOILO, INPUT);
@@ -60,6 +62,9 @@ void loop() {
 
   tempVal = therm(analogRead(THERMO));
 
+  for (int i = 0; i <= 2; i++) battVolts += getBandgap();
+  battVolts = battVolts / 3;
+
   if (mode == 0) duration = 3600;
 
   if (mode == 1) duration = 5;
@@ -79,15 +84,17 @@ void loop() {
   }
 }
 
-void printVal(){
-    curSec = millis()/1000;
-    Serial.print(curSec);
-    Serial.print(" , ");
-    Serial.print(soilVal);
-    Serial.print(" , ");
-    Serial.print(soilPct);
-    Serial.print(" , ");
-    Serial.println(tempVal);
+void printVal() {
+  curSec = millis() / 1000;
+  Serial.print(curSec);
+  Serial.print(" , ");
+  Serial.print(soilVal);
+  Serial.print(" , ");
+  Serial.print(soilPct);
+  Serial.print(" , ");
+  Serial.print(tempVal);
+  Serial.print(" , ");
+  Serial.println(battVolts);
 }
 
 int therm(int V0) {
@@ -97,4 +104,18 @@ int therm(int V0) {
   TC = T - 273.15;
   TF = (TC * 1.8) + 32;
   return TF;
+}
+
+int getBG(void) {
+  const long InternalReferenceVoltage = 1050L;  // Adust this value to your specific internal BG voltage x1000
+  // REFS1 REFS0          --> 0 1, AVcc internal ref.
+  // MUX3 MUX2 MUX1 MUX0  --> 1110 1.1V (VBG)
+  ADMUX = (0 << REFS1) | (1 << REFS0) | (0 << ADLAR) | (1 << MUX3) | (1 << MUX2) | (1 << MUX1) | (0 << MUX0);
+  // Start a conversion
+  ADCSRA |= _BV( ADSC );
+  // Wait for it to complete
+  while ( ( (ADCSRA & (1 << ADSC)) != 0 ) );
+  // Scale the value
+  int results = (((InternalReferenceVoltage * 1024L) / ADC) + 5L) / 10L;
+  return results;
 }
