@@ -28,17 +28,16 @@ int soilMoist::getSoilVal(){
 }
 
 void soilMoist::serialSoilInit(){
-    Serial.begin(9600); // open serial port, set the baud rate to 9600 bps
     Serial.println(" Time (s) , Analog Reading , Percent Value ");
 }
 
 void soilMoist::printSoilMoist(){
     curSec = millis()/1000;
-    Serial.print(curSec);
+    Serial.print(curSec, HEX);
 
     Serial.print(" , ");
-    Serial.print(soilVal);
+    Serial.print(soilVal, HEX);
 
     Serial.print(" , ");
-    Serial.println(soilPct);
+    Serial.println(soilPct, HEX);
 }
