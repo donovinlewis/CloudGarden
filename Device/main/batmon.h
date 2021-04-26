@@ -1,9 +1,10 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
 #ifndef BAT_H
 #define BAT_H
 
-#include <Arduino.h>
-#include <Wire.h>
+//#include <Arduino.h>
+//#include <Wire.h>
 
 // MAX1720X register addresses
 const int BAT_ADDR = 0x36;
@@ -40,6 +41,8 @@ private:
 
 #endif
 =======
+=======
+>>>>>>> 1fe92ec8a4e270826c1a364bc93d900d8a202d89
 #ifndef BATMON_H
 #define BATMON_H
 
@@ -69,5 +72,9 @@ private:
   }
 };
 
+<<<<<<< HEAD
 #endif // BATMON_H defined, not batman unfortunately
 >>>>>>> 1fe92ec (cleaned up code and pulled in thermistor and battery monitoring changes)
+=======
+#endif // BATMON_H defined, not batman unfortunately
+>>>>>>> 1fe92ec8a4e270826c1a364bc93d900d8a202d89
