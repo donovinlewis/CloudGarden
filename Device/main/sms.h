@@ -1,27 +1,27 @@
 #ifndef SMS_H
 #define SMS_H
 
-#include "Arduino.h"
+#include "pins.h"
 
-class soilMoist{
+class soilMoist : public pins {
 private:
-    int soilVal, soilPct, airVal, watVal;
-    unsigned long curSec;
-
+  int soilVal, soilPct, airVal, watVal;
 
 public:
-    soilMoist();
-    void updateSoilSensing(const int analogPin);
+  soilMoist() : pins{PC0, PD5}, airVal{565}, watVal{293} {};
 
-    void setAirVal(const int analogPin);
-    void setWatVal(const int analogPin);
+  void updateSoilSensing();
 
-    int getSoilPct();
-    int getSoilVal();
+  void setAirVal(const int val);
+  void setWatVal(const int val);
 
-    void serialSoilInit();
-    void printSoilMoist();
+  int getSoilPct() const;
+  int getSoilVal() const;
 
+  void serialSoilInit();
+  void printSoilMoist() const;
+
+  enum Calibration : uint8_t { None = 0, Air = 1, Water = 2 };
 };
 
 #endif

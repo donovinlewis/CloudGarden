@@ -114,3 +114,19 @@ uint8_t batMon::reset()
 	Wire.write(0x00);
 	return Wire.endTransmission();
 }
+=======
+=======
+>>>>>>> 1fe92ec8a4e270826c1a364bc93d900d8a202d89
+uint32_t batmon::getVolts() {
+  for (int i = 0; i <= 2; i++)
+  {
+      battVolts += getBG();
+  }
+  battVolts = battVolts / 3;
+  return battVolts;
+<<<<<<< HEAD
+}
+>>>>>>> 1fe92ec (cleaned up code and pulled in thermistor and battery monitoring changes)
+=======
+}
+>>>>>>> 1fe92ec8a4e270826c1a364bc93d900d8a202d89

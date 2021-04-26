@@ -1,44 +1,32 @@
 #include "sms.h"
 
-
-soilMoist::soilMoist(){
-    airVal = 565;
-    watVal = 293;
+void soilMoist::updateSoilSensing() {
+  soilVal = analogRead(INPUT_PIN);
+  soilPct = map(soilVal, airVal, watVal, 0, 100);
 }
 
-void soilMoist::updateSoilSensing(const int analogPin){
-    soilVal = analogRead(analogPin); 
-    soilPct = map(soilVal, airVal, watVal, 0, 100);
-}
+void soilMoist::setWatVal(const int val) { watVal = val; }
 
-void soilMoist::setWatVal(const int analogPin){
-    watVal = analogRead(analogPin);
-}
+void soilMoist::setAirVal(const int val) { airVal = val; }
 
-void soilMoist::setAirVal(const int analogPin){
-    airVal = analogRead(analogPin);
-}
+int soilMoist::getSoilPct() const { return soilPct; }
 
-int soilMoist::getSoilPct(){
-    return soilPct;
-}
+int soilMoist::getSoilVal() const { return soilVal; }
 
-int soilMoist::getSoilVal(){
-    return soilVal;
-}
-
-void soilMoist::serialSoilInit(){
-    Serial.begin(9600); // open serial port, set the baud rate to 9600 bps
+void soilMoist::serialSoilInit() {
+  if (Serial) {
     Serial.println(" Time (s) , Analog Reading , Percent Value ");
+  }
+  init();
 }
 
-void soilMoist::printSoilMoist(){
-    curSec = millis()/1000;
-    Serial.print(curSec);
+void soilMoist::printSoilMoist() const {
+  const long curSec = millis() / 1000;
+  Serial.print(curSec, HEX);
 
-    Serial.print(" , ");
-    Serial.print(soilVal);
+  Serial.print(" , ");
+  Serial.print(soilVal, HEX);
 
-    Serial.print(" , ");
-    Serial.println(soilPct);
+  Serial.print(" , ");
+  Serial.println(soilPct, HEX);
 }

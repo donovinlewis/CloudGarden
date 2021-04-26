@@ -1,28 +1,26 @@
 #ifndef TRANSCEIVER_HPP
 #define TRANSCEIVER_HPP
-// includes from LowPowerLab library
-#include <LowPower.h>
-#include <RFM69.h>
+#include <RadioLib.h>
+#include <spi.h>
 
 // standard library includes.
 #include <stdint.h>
 
 // helper functions
 static constexpr uint8_t MSByte(uint16_t i) {
-  return static_cast<uint8_t>(i & 0xFF00);
+  return static_cast<uint8_t>((i & 0xFF00) >> 8);
 }
 
 static constexpr uint8_t LSByte(uint16_t i) {
   return static_cast<uint8_t>(i & 0x00FF);
 }
 
-class Transceiver : private RFM69 {
+class Transceiver : private RF69 {
 public:
   // constructor
-  Transceiver() : RFM69{RF69_SPI_CS, RF69_IRQ_PIN, true, nullptr} {
-    this->initialize(RF69_915MHZ, static_cast<uint8_t>(random(2, 253)),
-                     NETWORK_ID);
-  }
+  // TODO: figure out which pins these need to be
+  explicit Transceiver(uint8_t nodeId = 0x00)
+      : RF69{new Module(SS, RFM69_INT, RFM69_RST)}, mNodeId{nodeId} {}
 
   // public structures
   enum Mode : uint8_t { Default = 0, Calibration = 1, Off = 2 };
@@ -41,13 +39,58 @@ public:
   };
 
   // public methods
-  int Send(const TransmittedData &data);
+  int Send(const TransmittedData &data, uint8_t transmitToAddr = 0x00);
   int Receive(ReceivedData &data);
+  int Sleep();
+  int Awake();
+  int Initialize() {
+    reset();
+    delay(10);
+
+    // initialize RF69 with default settings
+    int status = printFailure(begin(900.0, 100.0, 50.0, 125.0, 20, 16));
+
+    // NOTE: some RF69 modules use high power output,
+    //       those are usually marked RF69H(C/CW).
+    //       To configure RadioLib for these modules,
+    //       you must call setOutputPower() with
+    //       second argument set to true.
+    status |= printFailure(setOutputPower(20, true));
+    if (!mNodeId) {
+      status |= printFailure(disableAddressFiltering());
+    } else {
+      status |= printFailure(setNodeAddress(mNodeId));
+    }
+
+    uint8_t syncWord[4] = {0x01, 0x23, 0x45, 0x67};
+    status |= printFailure(setSyncWord(syncWord, 4));
+    status |= printFailure(enableSyncWordFiltering());
+    status |= printFailure(disableAES());
+    status |= printFailure(setCrcFiltering(false));
+    status |= printFailure(setDataShaping(RADIOLIB_SHAPING_0_5));
+    status |= printFailure(setEncoding(RADIOLIB_ENCODING_MANCHESTER));
+    status |= printFailure(variablePacketLengthMode(RF69_MAX_PACKET_LENGTH));
+    return status;
+  }
 
   // public defines
+  // TODO: implement gateway and node ids
   static constexpr uint8_t GATEWAY_ID{1};
-  static constexpr uint8_t NODE_ID{2};
-  static constexpr uint8_t NETWORK_ID{100};
+  static constexpr uint8_t RFM69_RST{8};
+  static constexpr uint8_t RFM69_INT{3};
+
+private:
+  // private member variables
+  bool isSleeping{false};
+  const uint8_t mNodeId;
+
+  int printFailure(int status) {
+    if (Serial && status != ERR_NONE) {
+      Serial.print("Failed error code = ");
+      Serial.println(status);
+    }
+    return status;
+  }
 };
 
 #endif // TRANSCEIVER_HPP defined
