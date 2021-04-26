@@ -1,5 +1,5 @@
 # CloudGarden
-This repository contains the ongoing work to develop code for a wireless soil moisture sensor.
+This repository contains the ongoing work to develop a wireless soil moisture sensor.
 
 ## Necessary Arduino Libraries
  * [RadioLib](https://github.com/jgromes/RadioLib.git)
