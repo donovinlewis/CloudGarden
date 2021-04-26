@@ -2,7 +2,7 @@
 #define MAIN_H
 
 //Common libraries needed across sections
-#include "Arduino.h"
+#include <Arduino.h>
 
 //Microcontroller Pin Definitions
 const int SOILM = A0;
