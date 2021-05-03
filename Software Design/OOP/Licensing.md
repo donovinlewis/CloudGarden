@@ -1,0 +1,3 @@
+# Licensing
+- The *bati2c* files provided in the OOP code were derived from the [max1720x repository](https://github.com/IRNAS/max1720x) and licensed under the [GNU General Public License v3](http://www.gnu.org/licenses/gpl-3.0.en.html). The code and associated hardware circuit was never tested on our device.
+- The *batmon* method of bandgap measurement was adapted from [forums describing it's use](https://forum.arduino.cc/t/measurement-of-bandgap-voltage/38215) and a [web page](https://provideyourown.com/2012/secret-arduino-voltmeter-measure-battery-voltage/) that further explained how the process funcitons.

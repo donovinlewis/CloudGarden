@@ -1,6 +1,7 @@
-/* Some bullshit Donovin Lewis made
-   Real talk tho
-
+/* Functional Code meant for testing of a 
+  soil moisture sensor prototype without
+  adding wireless connectivity components
+  Created by Donovin Lewis
 */
 
 #include "LowPower.h"
