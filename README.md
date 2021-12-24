@@ -2,8 +2,8 @@
 While I loved the concept of a wireless battery powered soil moisture sensor and performed much research on the topic in the accompanying documents, I have not been able to spare the time to revise and fix the flawed designs described within this repository. As such, I would like to redirect anyone searching to another team who has successfully designed and made a functional prototype available for open usage:
 
 A LoRa enabled and battery powered soil moisture sensor has been designed by the people over at Makerfabs whose wireless transmission systems function correctly and has low energy consumption of around 7.1 uA. More information into the design and function of those functional products/designs can be found at either:
-* [Lora Soil Moisture Sensor Project Github] (https://github.com/Makerfabs/Lora-Soil-Moisture-Sensor.git)
-* [Makerfab Wiki Soil Moisture Sensor Page] (https://www.makerfabs.com/wiki/index.php?title=Lora_Soil_Moisture_Sensor.git)
+* [Lora Soil Moisture Sensor Project Github](https://github.com/Makerfabs/Lora-Soil-Moisture-Sensor.git)
+* [Makerfab Wiki Soil Moisture Sensor Page](https://www.makerfabs.com/wiki/index.php?title=Lora_Soil_Moisture_Sensor)
 ---
 
 # CloudGarden
